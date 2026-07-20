@@ -1,9 +1,9 @@
 # https://data.nasa.gov/resource/eva.json (with modifications)
-data_f = open('/home/sarah/Projects/astronaut-analysis/data.json', 'r')
-data_t = open('/home/sarah/Projects/astronaut-analysis/data.csv','w')
-g_file = 'myplot.png'
+data_f = open(r'C:\Users\benja\Documents\UW-Madison\Python Software Workshop\Data\spacewalks\eva-data.json', 'r')
+data_t = open(r'C:\Users\benja\Documents\UW-Madison\Python Software Workshop\Data\spacewalks\eva-data.csv','w')
+g_file = 'cumulative_eva_graph.png'
 
-fieldnames = ("EVA #", "Country", "Crew    ", "Vehicle", "Date", "Duration", "Purpose")
+fieldnames = ("EVA #", "Country", "Crew", "Vehicle", "Date", "Duration", "Purpose")
 
 data=[]
 import json
