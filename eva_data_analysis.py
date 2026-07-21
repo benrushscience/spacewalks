@@ -1,6 +1,6 @@
 # EVA Data Analysis
 
-# import packages
+### import packages
 
 import json
 import datetime as dt
@@ -8,12 +8,13 @@ import os
 import csv
 import matplotlib.pyplot as plt
 
-
+### file path variables
 # https://data.nasa.gov/resource/eva.json (with modifications)
 eva_data_json = open('./eva-data.json', 'r')
 eva_data_csv = open('./eva-data.csv','w')
 g_file = 'cumulative_eva_graph.png'
 
+###  prting and exporting data
 fieldnames = ("eva", "country", "crew", "vehicle", "date", "duration", "purpose")
 
 data=[]
@@ -23,10 +24,11 @@ for i in range(375):
     print(line)
     data.append(json.loads(line[1:-1]))
 #data.pop(0)
-## Comment out this bit if you don't want the spreadsheet
+
 
 w=csv.writer(eva_data_csv)
 
+### processing times
 
 time = []
 date =[]
