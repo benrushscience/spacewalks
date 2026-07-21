@@ -33,35 +33,37 @@ w=csv.writer(eva_data_csv)
 time = []
 date =[]
 
+
 j=0
 for i in data:
     print(data[j])
     # and this bit
     w.writerow(data[j].values())
     if 'duration' in data[j].keys():
-        tt=data[j]['duration']
-        if tt == '':
+        duration_str=data[j]['duration']
+        if duration_str == '':
             pass
         else:
-            t=dt.datetime.strptime(tt,'%H:%M')
-            ttt = dt.timedelta(hours=t.hour, minutes=t.minute, seconds=t.second).total_seconds()/(60*60)
-            print(t,ttt)
-            time.append(ttt)
+            duration_date=dt.datetime.strptime(duration_str,'%H:%M')
+            duration_time_hr = dt.timedelta(hours=duration_date.hour, minutes=duration_date.minute, seconds=duration_date.second).total_seconds()/(60*60)
+            print(duration_date,duration_time_hr)
+            time.append(duration_time_hr)
             if 'date' in data[j].keys():
                 date.append(dt.datetime.strptime(data[j]['date'][0:10], '%Y-%m-%d'))
                 #date.append(data[j]['date'][0:10])
 
             else:
-                time.pop(0)
+                time.pop()
     j+=1
 
-t=[0]
+# Build cumulative totals without mutating the list during iteration.
+cumulative_time = [0]
 for i in time:
-    t.append(t[-1]+i)
+    cumulative_time.append(cumulative_time[-1] + i)
 
-date,time = zip(*sorted(zip(date, time)))
+date, cumulative_time = zip(*sorted(zip(date, cumulative_time[1:])))
 
-plt.plot(date,t[1:], 'ko-')
+plt.plot(date, cumulative_time, 'ko-')
 plt.xlabel('Year')
 plt.ylabel('Total time spent in space to date (hours)')
 plt.tight_layout()
