@@ -30,38 +30,36 @@ w=csv.writer(eva_data_csv)
 
 ### processing times
 
-time = []
-date =[]
+entries = []
 
+for record in data:
+    print(record)
+    w.writerow(record.values())
 
-j=0
-for i in data:
-    print(data[j])
-    # and this bit
-    w.writerow(data[j].values())
-    if 'duration' in data[j].keys():
-        duration_str=data[j]['duration']
-        if duration_str == '':
-            pass
-        else:
-            duration_date=dt.datetime.strptime(duration_str,'%H:%M')
-            duration_time_hr = dt.timedelta(hours=duration_date.hour, minutes=duration_date.minute, seconds=duration_date.second).total_seconds()/(60*60)
-            print(duration_date,duration_time_hr)
-            time.append(duration_time_hr)
-            if 'date' in data[j].keys():
-                date.append(dt.datetime.strptime(data[j]['date'][0:10], '%Y-%m-%d'))
-                #date.append(data[j]['date'][0:10])
+    duration_str = record.get('duration', '')
+    date_str = record.get('date', '')
+    if not duration_str or not date_str:
+        continue
 
-            else:
-                time.pop()
-    j+=1
+    duration_date = dt.datetime.strptime(duration_str, '%H:%M')
+    duration_time_hr = dt.timedelta(
+        hours=duration_date.hour,
+        minutes=duration_date.minute,
+        seconds=duration_date.second,
+    ).total_seconds() / (60 * 60)
+    eva_date = dt.datetime.strptime(date_str[0:10], '%Y-%m-%d')
+    entries.append((eva_date, duration_time_hr))
 
-# Build cumulative totals without mutating the list during iteration.
-cumulative_time = [0]
-for i in time:
-    cumulative_time.append(cumulative_time[-1] + i)
+# Sort by date first, then compute cumulative time in chronological order.
+entries.sort(key=lambda item: item[0])
 
-date, cumulative_time = zip(*sorted(zip(date, cumulative_time[1:])))
+date = []
+cumulative_time = []
+running_total = 0
+for eva_date, duration_hr in entries:
+    running_total += duration_hr
+    date.append(eva_date)
+    cumulative_time.append(running_total)
 
 plt.plot(date, cumulative_time, 'ko-')
 plt.xlabel('Year')
