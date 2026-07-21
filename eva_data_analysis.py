@@ -14,9 +14,7 @@ eva_data_json = open('./eva-data.json', 'r')
 eva_data_csv = open('./eva-data.csv','w')
 g_file = 'cumulative_eva_graph.png'
 
-###  prting and exporting data
-fieldnames = ("eva", "country", "crew", "vehicle", "date", "duration", "purpose")
-
+### printing and exporting data
 data=[]
 
 for i in range(375):
@@ -28,7 +26,7 @@ for i in range(375):
 
 w=csv.writer(eva_data_csv)
 
-### processing times
+### processing time variables
 
 entries = []
 
@@ -60,6 +58,8 @@ for eva_date, duration_hr in entries:
     running_total += duration_hr
     date.append(eva_date)
     cumulative_time.append(running_total)
+
+### Creating plot of cumulative EVA time
 
 plt.plot(date, cumulative_time, 'ko-')
 plt.xlabel('Year')
