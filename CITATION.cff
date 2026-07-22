@@ -1,0 +1,17 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Spacewalks
+message: >-
+  Thanks for checking out Spacewalks. Feel free to use
+  Spacewalks as you see fit.
+type: software
+authors:
+  - given-names: Benjamin
+    family-names: Rush
+    email: rush4@wisc.edu
+    affiliation: University of Wisconsin-Madison
+    orcid: 'https://orcid.org/0000-0002-9530-1927'
+repository-code: 'https://github.com/benrushscience/spacewalks'
+license: MIT
