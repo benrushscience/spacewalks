@@ -144,6 +144,25 @@ def text_to_duration(duration):
     return duration_hours
 
 
+def summary_duration_by_astronaut(df):
+    """
+    Summarise the duration data by each astronaut and saves resulting table to a CSV file
+
+    Args: 
+        df (pd.DataFrame): Input dataframe to be summarised
+
+    
+    Returns:
+        sum_by_astro (pd.DataFrame): Data frame with a row for each astronaut and a summarised column 
+    """
+    print(f'Calculating summary of total EVA time by astronaut')
+    subset = df.loc[:,['crew', 'duration']] # subset to work with only relevant columns
+    subset = add_duration_hours(subset) # need duration_hours for easier calcs
+    subset = subset.drop('duration', axis=1) # dropping the extra 'duration' column as it contains string values not suitable for calculations
+    subset = subset.groupby('crew').sum()
+    subset = subset.reset_index() # make group index a column in the dataframe
+    return subset
+
 def add_duration_hours(df):
     """
     Add duration in hours (duration_hours) variable to the dataset
